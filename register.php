@@ -2,11 +2,27 @@
 require_once "admin/object.php";
     if(isset($_POST['btnlogin'])){
     $err=[];
+        if(isset($_POST['name'])&&!empty($_POST['name'])&&trim($_POST['name'])!=''){
+            $customer->set('name',$_POST['name']);
+        }else{
+            $err['name']="Enter name";
+        }
         if(isset($_POST['username'])&&!empty($_POST['username'])&&trim($_POST['username'])!=''){
             $customer->set('username',$_POST['username']);
         }else{
             $err['username']="Enter username";
         }
+        if(isset($_POST['phone'])&&!empty($_POST['phone'])&&trim($_POST['phone'])!=''){
+            $customer->set('phoneNumber',$_POST['phone']);
+        }else{
+            $err['phone']="Enter phone";
+        }
+        if(isset($_POST['address'])&&!empty($_POST['address'])&&trim($_POST['address'])!=''){
+            $customer->set('address',$_POST['address']);
+        }else{
+            $err['address']="Enter address";
+        }
+
          if(isset($_POST['password'])&&!empty($_POST['password'])&&trim($_POST['password'])!=''){
              $customer->set('password',md5($_POST['password']));
         }else{
@@ -14,7 +30,10 @@ require_once "admin/object.php";
         }
         print_r($err);
         if (count($err)==0) {
-            $login_err = $customer->login();
+            $res = $customer->register();
+        }
+        if(isset($res) && $res>0){
+        	header('location:index.php?msg=5');
         }
     }
 
@@ -54,35 +73,54 @@ require_once "admin/object.php";
 		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
 			<div class="wrap-login100 p-t-30 p-b-50">
 				<span class="login100-form-title p-b-41">
-					Food Order Login
+					Register Here !
 				</span>
-				<?php if(isset($login_err)){?>
-	                 <div class="alert alert-danger"> <?php echo $login_err; ?></div>
+				<?php if(isset($res)){?>
+	                 <div class="alert alert-danger"> <?php echo $res; ?></div>
 	            <?php   } ?>
-	            <?php if(isset($_GET['msg']) && $_GET['msg']==1){?>
-	                <div class="alert alert-danger"> Login to Access Dashboard</div>
-	            <?php   } ?>
-	            <?php if(isset($_GET['msg']) && $_GET['msg']==5){?>
-	                <div class="alert alert-danger"> Registration success. Please, login to continue</div>
-	            <?php   } ?>
-				<form role="form" action="" method="post" id="login_form" class="login100-form validate-form p-b-33 p-t-5">
+	            
+				<form role="form" action="" method="post" id="register_form" class="login100-form validate-form p-b-33 p-t-5">
 
 					<div class="wrap-input100 validate-input" data-validate = "Enter username">
-						<input class="input100" type="text" id="uname" name="username" placeholder="User name" required="">
-						<span class="focus-input100" data-placeholder="&#xe82a;"></span>
+						<input class="input100" type="text" id="name" name="name" placeholder="Name" required="">
+						<span class="focus-input100" ></span>
+						<?php if(isset($err['name'])){?>
+                        <span class="text-danger"><?php echo $err['name'];?></span>
+                      <?php } ?>
 					</div>
-
+					<div class="wrap-input100 validate-input" data-validate = "Enter username">
+						<input class="input100" type="text" id="username" name="username" placeholder="User name" required="">
+						<span class="focus-input100" ></span>
+						<?php if(isset($err['username'])){?>
+                        <span class="text-danger"><?php echo $err['username'];?></span>
+                      <?php } ?>
+					</div>
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
 						<input class="input100" type="password" name="password" placeholder="Password" required="">
-						<span class="focus-input100" data-placeholder="&#xe80f;"></span>
+						<span class="focus-input100" ></span>
+						<?php if(isset($err['password'])){?>
+                        <span class="text-danger"><?php echo $err['password'];?></span>
+                      <?php } ?>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate="Enter password">
+						<input class="input100" type="number" name="phone" placeholder="phone" required="">
+						<span class="focus-input100" ></span>
+						<?php if(isset($err['phone'])){?>
+                        <span class="text-danger"><?php echo $err['phone'];?></span>
+                      <?php } ?>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Enter address">
+						<input class="input100" type="text" id="address" name="address" placeholder="Address" required="">
+						<span class="focus-input100" ></span>
+						<?php if(isset($err['address'])){?>
+                        <span class="text-danger"><?php echo $err['address'];?></span>
+                      <?php } ?>
 					</div>
 
+					
+
 					<div class="container-login100-form-btn m-t-32">
-						<input type='submit' class="login100-form-btn" id='submit' value='login' name="btnlogin" />
-						
-					</div>
-					<div class="container-login100-form-btn m-t-32">
-						<a href="register.php">Register now</a>
+						<input type='submit' class="login100-form-btn" id='submit' value='Register' name="btnlogin" />
 						
 					</div>
 

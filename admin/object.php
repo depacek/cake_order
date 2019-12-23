@@ -7,4 +7,5 @@ $product = new Product();
 
 require_once"class/customer.class.php";
 $customer = new Customer();
+
 ?>

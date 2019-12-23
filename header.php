@@ -1,4 +1,11 @@
-<?php require_once "object.php" ?>
+<?php
+ require_once "object.php";
+ @session_start();
+    if(!isset($_SESSION['user_name']) || empty($_SESSION['user_name'])){
+        header('location:index.php?msg=1');
+    }
+
+ ?>
 <!DOCTYPE HTML>
 <html lang="en-US">
 <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
@@ -45,6 +52,18 @@
                             <li><a href="orderProduct.php" class="scroll-link">product</a></li>
                          
                             <li><a href="contact.php" class="scroll-link">contact us</a></li>
+                            <li class="nav-item activedropdown">
+                                <a href="#" class="scroll-link" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <!-- <a class="nav-link" href="#"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
+                                      welcome <?php echo $_SESSION['user_name'];  ?>
+                                    </a>
+
+                                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a href="logout.php">logout</a>
+                                  </div>
+                                <!-- <a href="contact.php" class="scroll-link">contact us</a> -->
+                            </li>
+
                            <!-- <li><i class="fa fa-shopping-cart"></i></li> -->
                         </ul>
                         <div class="cart-box">
